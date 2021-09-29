@@ -296,7 +296,7 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 	return {
 
 		model             = GetEntityModel(vehicle),
-
+		
 		plate             = GetVehicleNumberPlateText(vehicle),
 		plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
 
@@ -375,7 +375,25 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 		modTank           = GetVehicleMod(vehicle, 45),
 		modWindows        = GetVehicleMod(vehicle, 46),
 		modLivery         = livery,
-		modCustomTyres	  = GetVehicleModVariation(vehicle, 23)
+		modCustomTyres	  = GetVehicleModVariation(vehicle, 23),
+		wheelsHeath	  = {
+					IsVehicleTyreBurst(vehicle, 0, false),
+					IsVehicleTyreBurst(vehicle, 1, false),
+					IsVehicleTyreBurst(vehicle, 2, false),
+					IsVehicleTyreBurst(vehicle, 3, false),
+					IsVehicleTyreBurst(vehicle, 4, false),
+					IsVehicleTyreBurst(vehicle, 5, false)
+				    },
+		windowsHeath	  = {
+					IsVehicleWindowIntact(vehicle, 0),
+					IsVehicleWindowIntact(vehicle, 1),
+					IsVehicleWindowIntact(vehicle, 2),
+					IsVehicleWindowIntact(vehicle, 3),
+					IsVehicleWindowIntact(vehicle, 4),
+					IsVehicleWindowIntact(vehicle, 6),
+					IsVehicleWindowIntact(vehicle, 7)
+				    },
+		
 	}
 end
 
@@ -623,5 +641,22 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 	end
 	if props.modCustomTyres ~= nil and props.modCustomTyres then 
 		SetVehicleMod(vehicle, 23, props.modCustomTyres, true)
+	end
+	if props.wheelsHeath ~= nil then
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[1], true, 1000),
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[2], true, 1000),
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[3], true, 1000),
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[4], true, 1000),
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[5], true, 1000),
+		 SetVehicleTyreBurst(vehicle, props.wheelsHeath[6], true, 1000)
+	end
+	if props.windowsHeath ~= nil then
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[1]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[2]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[3]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[4]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[5]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[6]),
+		 RemoveVehicleWindow(vehicle, props.windowsHeath[7])
 	end
 end
